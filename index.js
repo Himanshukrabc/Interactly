@@ -7,6 +7,7 @@ const app=express();
 dotenv.config();
 app.use(express.json());
 
+
 var mysqlConnection = mysql.createConnection({
     host:process.env.SQL_HOST,
     user:process.env.SQL_USER,
@@ -14,10 +15,13 @@ var mysqlConnection = mysql.createConnection({
     database:process.env.SQL_DB_NAME
 });
 
+
 mysqlConnection.connect((err)=>{
     if(!err)console.log("DB Connection Succeeded");
     else console.log("DB Connection unsuccessful\nError:",err);
 });
+
+
 
 //Create Contact
 app.post('/contacts',async (req,res)=>{
@@ -47,6 +51,8 @@ app.post('/contacts',async (req,res)=>{
     }
 });
 
+
+
 //Get Contant with ID
 app.get('/contacts',async (req,res)=>{
     const  {data_store,contact_id}=req.body;
@@ -70,6 +76,8 @@ app.get('/contacts',async (req,res)=>{
         });
     }
 });
+
+
 
 //Update Contact
 app.post('/contacts/update',async (req,res)=>{
@@ -102,6 +110,8 @@ app.post('/contacts/update',async (req,res)=>{
     }
 });
 
+
+
 //Delete a Contact
 app.post('/contacts/delete',async (req,res)=>{
     const  {data_store,contact_id}=req.body;
@@ -126,6 +136,7 @@ app.post('/contacts/delete',async (req,res)=>{
     }
 });
 
+
 app.listen(8000,()=>{
-    console.log("Server running at 5500");
+    console.log("Server running at 8000");
 });

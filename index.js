@@ -37,8 +37,14 @@ app.post('/contacts',async (req,res)=>{
             data:{
                 "contact":rest
             },
-        })).data;  
-        res.send(data);  
+        })).data;
+        res.send({
+            id:data.contact.id,
+            first_name:data.contact.first_name,
+            last_name:data.contact.last_name,
+            email:data.contact.email,
+            mobile_number:data.contact.mobile_number
+        });  
     }
     else{
         mysqlConnection.query('INSERT INTO Contacts (first_name,last_name,mobile_number,email) VALUES (?,?,?,?)',[rest.first_name,rest.last_name,parseInt(rest.mobile_number),rest.email],(err,rows,fields)=>{
@@ -65,7 +71,13 @@ app.get('/contacts',async (req,res)=>{
                 "Content-Type": "application/json"
             }
         })).data;  
-        res.send(data);  
+        res.send({
+            id:data.contact.id,
+            first_name:data.contact.first_name,
+            last_name:data.contact.last_name,
+            email:data.contact.email,
+            mobile_number:data.contact.mobile_number
+        });  
     }
     else{
         mysqlConnection.query('SELECT * FROM Contacts WHERE id = ?',[contact_id],(err,rows,fields)=>{
@@ -98,7 +110,13 @@ app.post('/contacts/update',async (req,res)=>{
                 }
             },
         })).data;  
-        res.send(data);  
+        res.send({
+            id:data.contact.id,
+            first_name:data.contact.first_name,
+            last_name:data.contact.last_name,
+            email:data.contact.email,
+            mobile_number:data.contact.mobile_number
+        });  
     }
     else{
         mysqlConnection.query('UPDATE Contacts SET mobile_number=?,email=? WHERE id=?',[new_mobile_number,new_email,contact_id],(err,rows,fields)=>{
@@ -124,7 +142,8 @@ app.post('/contacts/delete',async (req,res)=>{
                 "Content-Type": "application/json"
             }
         })).data;  
-        res.send(data);  
+        if(data)res.send("Deleted Successfully"); 
+        else res.send("Deletionn Unsuccessful"); 
     }
     else{
         mysqlConnection.query('DELETE FROM Contacts WHERE id = ?',[contact_id],(err,rows,fields)=>{
